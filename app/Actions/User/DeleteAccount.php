@@ -28,19 +28,13 @@ class DeleteAccount
         $user->delete();
     }
 
-    public function withValidator(Validator $validator, ActionRequest $request): void
+    public function getValidationErrorBag(): string
     {
-        $validator->after(function (Validator $validator) use ($request) {
-            $request->validateWithBag('userDeletion', $this->rules());
-        });
+        return 'userDeletion';
     }
 
     public function asController(ActionRequest $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
         $this->handle($request->user());
 
         $request->session()->invalidate();

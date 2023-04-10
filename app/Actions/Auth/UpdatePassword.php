@@ -22,11 +22,9 @@ class UpdatePassword
         ];
     }
 
-    public function withValidator(Validator $validator, ActionRequest $request): void
+    public function getValidationErrorBag(): string
     {
-        $validator->after(function (Validator $validator) use ($request) {
-            $request->validateWithBag('updatePassword', $this->rules());
-        });
+        return 'updatePassword';
     }
 
     public function handle(User $user, string $newPassword)
